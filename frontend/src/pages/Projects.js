@@ -29,7 +29,6 @@ const Projects = () => {
       description: "An AI-enhanced language learning platform with quizzes, translation, and vocabulary features.",
       technologies: ["JavaScript", "HTML", "Python", "CSS", "React", "Tailwind"],
       link: "https://github.com/tahmid-chowdhury/LinguaDex",
-      image: "https://via.placeholder.com/600x340/1a1a1a/64ffda?text=LinguaDex",
       details: [
         "Built an AI-enhanced language learning platform with quizzes, translation, and vocab features",
         "Used Vite + React and Tailwind for responsive, accessible design"
@@ -41,7 +40,6 @@ const Projects = () => {
       description: "A manga reader with character-specific AI narration using ElevenLabs API.",
       technologies: ["HTML", "JavaScript", "CSS", "ElevenLabs API"],
       link: "https://github.com/tahmid-chowdhury/MangaVox",
-      image: "https://via.placeholder.com/600x340/1a1a1a/64ffda?text=MangaVox",
       details: [
         "Created a manga reader with character-specific AI narration using ElevenLabs API",
         "Implemented voice-panel sync and prioritized UI/UX"
@@ -53,7 +51,6 @@ const Projects = () => {
       description: "A real-time image classifier using YOLOv5 with high detection accuracy.",
       technologies: ["Python", "JavaScript", "YOLOv5", "Computer Vision"],
       link: "https://github.com/Kevaunjh/insect-identification",
-      image: "https://via.placeholder.com/600x340/1a1a1a/64ffda?text=Species+Detection",
       details: [
         "Designed a real-time image classifier using YOLOv5 with high detection accuracy",
         "Optimized inference and UI with a 4-member team"
@@ -65,7 +62,6 @@ const Projects = () => {
       description: "An LSTM-based agent that achieved 2.6% gain in a trading simulation.",
       technologies: ["Python", "LSTM", "TensorFlow", "Data Analysis"],
       link: "https://github.com/tahmid-chowdhury/tesla-stock-prediction",
-      image: "https://via.placeholder.com/600x340/1a1a1a/64ffda?text=Tesla+Stock+Prediction",
       details: [
         "Developed an LSTM-based agent that achieved 2.6% gain in a trading simulation"
       ]
@@ -76,7 +72,6 @@ const Projects = () => {
       description: "A fitness tracker MVP built in <24h with real-time feedback and motivational visuals.",
       technologies: ["TypeScript", "React Native", "Mobile Development"],
       link: "https://github.com/tahmid-chowdhury/HackHive-2025",
-      image: "https://via.placeholder.com/600x340/1a1a1a/64ffda?text=HackHive+2025",
       details: [
         "Built a fitness tracker MVP in <24h with real-time feedback and motivational visuals"
       ]
@@ -87,7 +82,6 @@ const Projects = () => {
       description: "Collection of smaller projects including CipherSafe, NoteMe, Calculator, and more.",
       technologies: ["Java", "C++", "Dart", "Swift", "Python", "JavaScript"],
       link: "https://github.com/tahmid-chowdhury",
-      image: "https://via.placeholder.com/600x340/1a1a1a/64ffda?text=Other+Projects",
       details: [
         "CipherSafe: Password manager (Java)",
         "NoteMe: Multilang notes app (C++, Dart, Swift)",
@@ -204,15 +198,15 @@ const Projects = () => {
   // Only show loading state on initial load
   const projectContent = (
     <>
-      {/* Filter Buttons */}
+      {/* Filter Buttons - Updated for better mobile display */}
       <motion.div 
-        className="filter-container mb-8 overflow-x-auto pb-2"
+        className="filter-container mb-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <div className="flex space-x-2 mb-2">
-          {allTechnologies.slice(0, Math.min(8, allTechnologies.length)).map((tech, index) => (
+        <div className="flex flex-wrap gap-2 pb-2">
+          {allTechnologies.map((tech, index) => (
             <motion.button
               key={tech}
               className={`px-4 py-1 rounded-full text-sm whitespace-nowrap ${
@@ -233,30 +227,6 @@ const Projects = () => {
             </motion.button>
           ))}
         </div>
-        {allTechnologies.length > 8 && (
-          <div className="flex space-x-2">
-            {allTechnologies.slice(8).map((tech, index) => (
-              <motion.button
-                key={tech}
-                className={`px-4 py-1 rounded-full text-sm whitespace-nowrap ${
-                  activeFilter === tech ? 'bg-accent-primary text-bg-primary' : 'bg-bg-tertiary'
-                }`}
-                onClick={() => handleFilterClick(tech)}
-                whileHover={{ 
-                  scale: 1.05,
-                  backgroundColor: activeFilter === tech ? 'var(--accent-primary)' : 'var(--accent-secondary)',
-                  color: 'var(--bg-primary)'
-                }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: (index + 8) * 0.05 + 0.3 }}
-              >
-                {tech}
-              </motion.button>
-            ))}
-          </div>
-        )}
       </motion.div>
 
       {/* Projects Grid */}
@@ -279,52 +249,31 @@ const Projects = () => {
             onMouseEnter={() => setHoveredProject(project.id)}
             onMouseLeave={() => setHoveredProject(null)}
           >
-            {project.image && (
-              <div className="project-image mb-4 overflow-hidden rounded-md relative">
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-t from-bg-primary to-transparent opacity-50 z-10"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: hoveredProject === project.id ? 0.7 : 0.5 }}
-                  transition={{ duration: 0.3 }}
-                />
-                <motion.img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-auto object-cover"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.5 }}
-                />
-                <motion.div
-                  className="absolute top-2 right-2 z-20"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ 
-                    opacity: hoveredProject === project.id ? 1 : 0,
-                    scale: hoveredProject === project.id ? 1 : 0.8
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <a 
-                    href={project.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="bg-accent-primary p-2 rounded-full inline-block"
-                    title="View Repository"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--bg-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1-2-2h6"></path>
-                      <polyline points="15 3 21 3 21 9"></polyline>
-                      <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                  </a>
-                </motion.div>
-              </div>
-            )}
-
-            <h3 className="text-xl mb-2 font-bold">{project.title}</h3>
+            {/* Removed thumbnail image */}
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="text-xl font-bold">{project.title}</h3>
+              
+              <motion.a 
+                href={project.link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-bg-tertiary hover:bg-accent-primary p-2 rounded-full inline-block transition-colors"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                title="View Repository"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1-2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </motion.a>
+            </div>
+            
             <p className="mb-4 line-clamp-2 text-text-secondary">{project.description}</p>
 
             <div className="mb-4 flex flex-wrap gap-2">
-              {project.technologies.slice(0, 4).map((tech, index) => (
+              {project.technologies.map((tech, index) => (
                 <motion.span
                   key={index}
                   className="px-2 py-1 bg-bg-tertiary text-xs rounded-full"
@@ -340,17 +289,6 @@ const Projects = () => {
                   {tech}
                 </motion.span>
               ))}
-              {project.technologies.length > 4 && (
-                <motion.span
-                  className="px-2 py-1 bg-bg-tertiary text-xs rounded-full"
-                  whileHover={{ scale: 1.05 }}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  +{project.technologies.length - 4}
-                </motion.span>
-              )}
             </div>
 
             <div className="project-details mb-4">
@@ -368,20 +306,22 @@ const Projects = () => {
               </ul>
             </div>
 
-            <motion.a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-accent-primary hover:text-accent-secondary transition-colors mt-auto"
-              whileHover={{ x: 5 }}
-              transition={{ duration: 0.2 }}
-            >
-              View Project 
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </motion.a>
+            <div className="mt-auto pt-2">
+              <motion.a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-accent-primary hover:text-accent-secondary transition-colors"
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                <span>View Project</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </motion.a>
+            </div>
           </motion.div>
         ))}
       </motion.div>

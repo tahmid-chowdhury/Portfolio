@@ -124,14 +124,14 @@ const Contact = () => {
       </motion.h1>
       
       <motion.div 
-        className="grid grid-cols-1 md:grid-cols-2 gap-8"
+        className="grid grid-cols-1 lg:grid-cols-3 gap-8"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Contact Info */}
         <motion.div variants={itemVariants} className="contact-info">
-          <div className="card">
+          <div className="card h-full">
             <h2 className="mb-4">Contact Information</h2>
             
             <div className="mb-6 space-y-4">
@@ -221,9 +221,9 @@ const Contact = () => {
           </div>
         </motion.div>
         
-        {/* Contact Form */}
-        <motion.div variants={itemVariants}>
-          <div className="card">
+        {/* Contact Form - Now takes 2/3 of the available space */}
+        <motion.div variants={itemVariants} className="lg:col-span-2">
+          <div className="card h-full">
             <h2 className="mb-4">Send Me a Message</h2>
             
             <form onSubmit={handleSubmit}>

@@ -2,6 +2,10 @@
 
 A modern, full-stack portfolio website built with the MERN stack (MongoDB, Express, React, Node.js) featuring a clean, dark-themed, minimal design with subtle animations.
 
+## Live Demo
+
+Visit my portfolio at [tahmid-chowdhury.vercel.app](https://tahmid-chowdhury.vercel.app)
+
 ## Features
 
 - **Responsive Design**: Looks great on all devices from mobile to desktop

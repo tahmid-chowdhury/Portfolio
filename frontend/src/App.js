@@ -8,7 +8,11 @@ import Contact from './pages/Contact';
 import Footer from './components/Footer';
 import ThemeToggle from './components/ThemeToggle';
 import { motion, AnimatePresence } from 'framer-motion';
+import { inject } from '@vercel/analytics';
 import './App.css';
+
+// Initialize Vercel Analytics
+inject();
 
 function App() {
   const [theme, setTheme] = useState('dark');

@@ -112,8 +112,8 @@ const About = () => {
           <p>
             New grad Software Engineer with a Bachelor's degree in Engineering and proficiency in 
             Python, JavaScript, and Java. Passionate about solving real-world problems through 
-            full-stack solutions. Proven track record in leadership, AI development, and scalable 
-            applications.
+            innovative full-stack solutions. Proven track record in leadership, AI development, and 
+            scalable web applications.
           </p>
         </motion.div>
 
@@ -128,8 +128,8 @@ const About = () => {
             </div>
             <p className="text-accent-primary mb-2">Wouessi Digital • Remote</p>
             <ul className="list-disc pl-5 space-y-2">
-              <li>Directed a 30-developer team to build the Tender Discovery Platform (TDP) for streamlining procurement access.</li>
-              <li>Led development of AI modules: lead generation, NLP-driven capability assessment, and ML benchmarking.</li>
+              <li>Directed a team of 30 developers in designing and deploying the Tender Discovery Platform (TDP), aimed at modernizing government procurement access for small IT firms.</li>
+              <li>Spearheaded the development of AI-powered modules for automated lead generation, NLP-driven capability assessment, and ML-based benchmarking.</li>
             </ul>
           </div>
           
@@ -140,7 +140,9 @@ const About = () => {
             </div>
             <p className="text-accent-primary mb-2">Kurius • Remote</p>
             <ul className="list-disc pl-5 space-y-2">
-              <li>Taught HTML, CSS, and JavaScript; provided personalized feedback in an inclusive learning environment.</li>
+              <li>Designed and delivered a beginner-friendly web development curriculum covering HTML, CSS, and JavaScript.</li>
+              <li>Provided tailored mentorship and feedback, fostering a positive, inclusive learning environment.</li>
+              <li>Demonstrated leadership through classroom management and personalized guidance.</li>
             </ul>
           </div>
           
@@ -151,7 +153,8 @@ const About = () => {
             </div>
             <p className="text-accent-primary mb-2">Tamil Nadu Multicultural Association of Canada • Remote</p>
             <ul className="list-disc pl-5 space-y-2">
-              <li>Delivered beginner coding lessons and adapted content to various learning styles.</li>
+              <li>Supported youth learning initiatives by teaching fundamental coding concepts through interactive activities and games.</li>
+              <li>Adapted teaching techniques to accommodate various learning styles and age groups.</li>
             </ul>
           </div>
         </motion.div>
@@ -179,22 +182,22 @@ const About = () => {
               <h3 className="text-lg mb-2">Technical Skills</h3>
               
               <div className="mb-3">
-                <p className="font-semibold">Languages</p>
+                <p className="font-semibold">Languages:</p>
                 <p>Python, JavaScript, Java, TypeScript, HTML, CSS, C++</p>
               </div>
               
               <div className="mb-3">
-                <p className="font-semibold">Frameworks/Tools</p>
+                <p className="font-semibold">Frameworks/Tools:</p>
                 <p>React.js, Node.js, Express, TailwindCSS, Bootstrap, JUnit, Git, GitHub, React Native</p>
               </div>
               
               <div className="mb-3">
-                <p className="font-semibold">Databases</p>
+                <p className="font-semibold">Databases:</p>
                 <p>MongoDB, MySQL, PostgreSQL, SQLite, DynamoDB, Redis</p>
               </div>
               
               <div>
-                <p className="font-semibold">Cloud/DevOps</p>
+                <p className="font-semibold">Cloud/DevOps:</p>
                 <p>AWS, Docker, Jenkins, Kubernetes</p>
               </div>
             </div>
@@ -202,8 +205,10 @@ const About = () => {
             <div>
               <h3 className="text-lg mb-2">Other Technical Skills</h3>
               <p>REST APIs, Hugging Face, TensorFlow, Scikit-learn, Agile methods, Algorithms & Data Structures</p>
-              
-              <h3 className="text-lg mb-2 mt-4">Soft Skills</h3>
+            </div>
+
+            <div>
+              <h3 className="text-lg mb-2">Soft Skills</h3>
               <p>Problem-solving, Attention to detail, Time management, Teamwork, Communication, Adaptability</p>
             </div>
           </div>

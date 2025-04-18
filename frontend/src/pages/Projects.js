@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
-// import axios from 'axios'; // Uncomment when connecting to backend API
-// import { useEffect } from 'react'; // Uncomment when backend API is ready
+import apiClient, { useApiCall } from '../utils/apiClient';
+import LoadingState from '../components/LoadingState';
 
 const Projects = () => {
-  // Replace with API call when backend is connected
-  const initialProjects = [
+  // Data states
+  const [projects, setProjects] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [hoveredProject, setHoveredProject] = useState(null);
+  
+  // API states
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const makeApiCall = useApiCall(setLoading);
+
+  // Memoize the fallback project data to prevent unnecessary re-renders
+  const initialProjects = useMemo(() => [
     {
       id: 1,
       title: "LinguaDex",
@@ -79,15 +90,50 @@ const Projects = () => {
         "Tic-Tac-Toe: Minimax AI game (JS)"
       ]
     }
-  ];
+  ], []);
 
-  const [projects] = useState(initialProjects);
-  const [filteredProjects, setFilteredProjects] = useState(projects);
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [hoveredProject, setHoveredProject] = useState(null);
-
-  // Get all unique technology tags
-  const allTechnologies = ["All", ...new Set(projects.flatMap(project => project.technologies))];
+  // Define fetch projects function with useCallback
+  const fetchProjects = useCallback(async () => {
+    try {
+      setError(null);
+      setLoading(true);
+      
+      // Try to fetch from API first
+      const { data, error } = await makeApiCall(() => 
+        apiClient.get('/projects')
+      );
+      
+      if (error) {
+        console.warn('Failed to load projects from API, using fallback data:', error);
+        // If API fails, use local fallback data
+        setProjects(initialProjects);
+        setFilteredProjects(initialProjects);
+      } else if (data && data.length > 0) {
+        setProjects(data);
+        setFilteredProjects(data);
+      } else {
+        // If API returns empty array, use fallback data
+        setProjects(initialProjects);
+        setFilteredProjects(initialProjects);
+      }
+    } catch (err) {
+      console.error('Error fetching projects:', err);
+      setError({
+        message: 'Failed to load projects',
+        detail: 'Please try again later'
+      });
+      // Use fallback on any error
+      setProjects(initialProjects);
+      setFilteredProjects(initialProjects);
+    } finally {
+      setLoading(false);
+    }
+  }, [makeApiCall, initialProjects]);
+  
+  // Fetch projects on component mount
+  useEffect(() => {
+    fetchProjects();
+  }, [fetchProjects]); // Now properly memoized
 
   const handleFilterClick = (tech) => {
     setActiveFilter(tech);
@@ -123,6 +169,9 @@ const Projects = () => {
     }
   };
 
+  // Get all unique technology tags
+  const allTechnologies = ["All", ...new Set(projects.flatMap(project => project.technologies))];
+
   return (
     <section className="projects-section">
       <motion.h1
@@ -133,38 +182,20 @@ const Projects = () => {
         Projects
       </motion.h1>
 
-      {/* Filter Buttons */}
-      <motion.div 
-        className="filter-container mb-8 overflow-x-auto pb-2"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+      <LoadingState 
+        isLoading={loading} 
+        error={error}
+        retryAction={fetchProjects}
       >
-        <div className="flex space-x-2 mb-2">
-          {allTechnologies.slice(0, Math.min(8, allTechnologies.length)).map((tech, index) => (
-            <motion.button
-              key={tech}
-              className={`px-4 py-1 rounded-full text-sm whitespace-nowrap ${
-                activeFilter === tech ? 'bg-accent-primary text-bg-primary' : 'bg-bg-tertiary'
-              }`}
-              onClick={() => handleFilterClick(tech)}
-              whileHover={{ 
-                scale: 1.05,
-                backgroundColor: activeFilter === tech ? 'var(--accent-primary)' : 'var(--accent-secondary)',
-                color: 'var(--bg-primary)'
-              }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.05 + 0.3 }}
-            >
-              {tech}
-            </motion.button>
-          ))}
-        </div>
-        {allTechnologies.length > 8 && (
-          <div className="flex space-x-2">
-            {allTechnologies.slice(8).map((tech, index) => (
+        {/* Filter Buttons */}
+        <motion.div 
+          className="filter-container mb-8 overflow-x-auto pb-2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <div className="flex space-x-2 mb-2">
+            {allTechnologies.slice(0, Math.min(8, allTechnologies.length)).map((tech, index) => (
               <motion.button
                 key={tech}
                 className={`px-4 py-1 rounded-full text-sm whitespace-nowrap ${
@@ -179,158 +210,182 @@ const Projects = () => {
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: (index + 8) * 0.05 + 0.3 }}
+                transition={{ duration: 0.3, delay: index * 0.05 + 0.3 }}
               >
                 {tech}
               </motion.button>
             ))}
           </div>
-        )}
-      </motion.div>
-
-      {/* Projects Grid */}
-      <motion.div
-        className="grid"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {filteredProjects.map((project) => (
-          <motion.div
-            key={project.id}
-            className="card project-card relative overflow-hidden"
-            variants={itemVariants}
-            whileHover={{ 
-              y: -10, 
-              boxShadow: '0 15px 30px var(--shadow-color)',
-              transition: { duration: 0.3 } 
-            }}
-            onMouseEnter={() => setHoveredProject(project.id)}
-            onMouseLeave={() => setHoveredProject(null)}
-          >
-            {project.image && (
-              <div className="project-image mb-4 overflow-hidden rounded-md relative">
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-t from-bg-primary to-transparent opacity-50 z-10"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: hoveredProject === project.id ? 0.7 : 0.5 }}
-                  transition={{ duration: 0.3 }}
-                />
-                <motion.img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-auto object-cover"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.5 }}
-                />
-                <motion.div
-                  className="absolute top-2 right-2 z-20"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ 
-                    opacity: hoveredProject === project.id ? 1 : 0,
-                    scale: hoveredProject === project.id ? 1 : 0.8
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <a 
-                    href={project.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="bg-accent-primary p-2 rounded-full inline-block"
-                    title="View Repository"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--bg-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                      <polyline points="15 3 21 3 21 9"></polyline>
-                      <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                  </a>
-                </motion.div>
-              </div>
-            )}
-
-            <h3 className="text-xl mb-2 font-bold">{project.title}</h3>
-            <p className="mb-4 line-clamp-2 text-text-secondary">{project.description}</p>
-
-            <div className="mb-4 flex flex-wrap gap-2">
-              {project.technologies.slice(0, 4).map((tech, index) => (
-                <motion.span
-                  key={index}
-                  className="px-2 py-1 bg-bg-tertiary text-xs rounded-full"
+          {allTechnologies.length > 8 && (
+            <div className="flex space-x-2">
+              {allTechnologies.slice(8).map((tech, index) => (
+                <motion.button
+                  key={tech}
+                  className={`px-4 py-1 rounded-full text-sm whitespace-nowrap ${
+                    activeFilter === tech ? 'bg-accent-primary text-bg-primary' : 'bg-bg-tertiary'
+                  }`}
+                  onClick={() => handleFilterClick(tech)}
                   whileHover={{ 
-                    backgroundColor: 'var(--accent-primary)',
-                    color: 'var(--bg-primary)',
-                    scale: 1.05
+                    scale: 1.05,
+                    backgroundColor: activeFilter === tech ? 'var(--accent-primary)' : 'var(--accent-secondary)',
+                    color: 'var(--bg-primary)'
                   }}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: (index + 8) * 0.05 + 0.3 }}
                 >
                   {tech}
-                </motion.span>
+                </motion.button>
               ))}
-              {project.technologies.length > 4 && (
-                <motion.span
-                  className="px-2 py-1 bg-bg-tertiary text-xs rounded-full"
-                  whileHover={{ scale: 1.05 }}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  +{project.technologies.length - 4}
-                </motion.span>
-              )}
             </div>
-
-            <div className="project-details mb-4">
-              <ul className="list-disc pl-5 space-y-1 text-sm">
-                {project.details.map((detail, index) => (
-                  <motion.li 
-                    key={index}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 + 0.2 }}
-                  >
-                    {detail}
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
-
-            <motion.a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-accent-primary hover:text-accent-secondary transition-colors mt-auto"
-              whileHover={{ x: 5 }}
-              transition={{ duration: 0.2 }}
-            >
-              View Project 
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </motion.a>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {filteredProjects.length === 0 && (
-        <motion.div 
-          className="text-center py-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="text-lg">No projects found with the selected technology.</p>
-          <button
-            className="mt-4 text-accent-primary hover:underline"
-            onClick={() => handleFilterClick("All")}
-          >
-            Show all projects
-          </button>
+          )}
         </motion.div>
-      )}
+
+        {/* Projects Grid */}
+        <motion.div
+          className="grid"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {filteredProjects.map((project) => (
+            <motion.div
+              key={project.id}
+              className="card project-card relative overflow-hidden"
+              variants={itemVariants}
+              whileHover={{ 
+                y: -10, 
+                boxShadow: '0 15px 30px var(--shadow-color)',
+                transition: { duration: 0.3 } 
+              }}
+              onMouseEnter={() => setHoveredProject(project.id)}
+              onMouseLeave={() => setHoveredProject(null)}
+            >
+              {project.image && (
+                <div className="project-image mb-4 overflow-hidden rounded-md relative">
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-t from-bg-primary to-transparent opacity-50 z-10"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: hoveredProject === project.id ? 0.7 : 0.5 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  <motion.img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-auto object-cover"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <motion.div
+                    className="absolute top-2 right-2 z-20"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ 
+                      opacity: hoveredProject === project.id ? 1 : 0,
+                      scale: hoveredProject === project.id ? 1 : 0.8
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <a 
+                      href={project.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="bg-accent-primary p-2 rounded-full inline-block"
+                      title="View Repository"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--bg-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1-2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                      </svg>
+                    </a>
+                  </motion.div>
+                </div>
+              )}
+
+              <h3 className="text-xl mb-2 font-bold">{project.title}</h3>
+              <p className="mb-4 line-clamp-2 text-text-secondary">{project.description}</p>
+
+              <div className="mb-4 flex flex-wrap gap-2">
+                {project.technologies.slice(0, 4).map((tech, index) => (
+                  <motion.span
+                    key={index}
+                    className="px-2 py-1 bg-bg-tertiary text-xs rounded-full"
+                    whileHover={{ 
+                      backgroundColor: 'var(--accent-primary)',
+                      color: 'var(--bg-primary)',
+                      scale: 1.05
+                    }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    {tech}
+                  </motion.span>
+                ))}
+                {project.technologies.length > 4 && (
+                  <motion.span
+                    className="px-2 py-1 bg-bg-tertiary text-xs rounded-full"
+                    whileHover={{ scale: 1.05 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    +{project.technologies.length - 4}
+                  </motion.span>
+                )}
+              </div>
+
+              <div className="project-details mb-4">
+                <ul className="list-disc pl-5 space-y-1 text-sm">
+                  {project.details.map((detail, index) => (
+                    <motion.li 
+                      key={index}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 + 0.2 }}
+                    >
+                      {detail}
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+
+              <motion.a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-accent-primary hover:text-accent-secondary transition-colors mt-auto"
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                View Project 
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </motion.a>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {filteredProjects.length === 0 && (
+          <motion.div 
+            className="text-center py-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <p className="text-lg">No projects found with the selected technology.</p>
+            <button
+              className="mt-4 text-accent-primary hover:underline"
+              onClick={() => handleFilterClick("All")}
+            >
+              Show all projects
+            </button>
+          </motion.div>
+        )}
+      </LoadingState>
     </section>
   );
 };

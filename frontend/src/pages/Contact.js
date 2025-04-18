@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import axios from 'axios'; // Uncommented for API connection
+import axios from 'axios';
 
 const Contact = () => {
   const [form, setForm] = useState({ 
@@ -12,27 +12,42 @@ const Contact = () => {
   const [status, setStatus] = useState({
     submitting: false,
     success: null,
-    error: null
+    error: null,
+    errorDetail: null // Store more detailed error information
   });
   const [focusedField, setFocusedField] = useState(null);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    // Clear error state when user starts typing again
+    if (status.error) {
+      setStatus(prev => ({ ...prev, error: null, errorDetail: null }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus({ submitting: true, success: null, error: null });
+    setStatus({ submitting: true, success: null, error: null, errorDetail: null });
 
     try {
-      // Call the actual API endpoint
-      const response = await axios.post('/api/contact', form);
+      // Add timeout to handle slow connections
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15-second timeout
+      
+      // Call the actual API endpoint with timeout
+      const response = await axios.post('/api/contact', form, {
+        signal: controller.signal,
+        timeout: 15000
+      });
+      
+      clearTimeout(timeoutId);
       
       if (response.data.success) {
         setStatus({ 
           submitting: false, 
           success: "Thank you for your message! I'll get back to you soon.",
-          error: null
+          error: null,
+          errorDetail: null
         });
         setForm({ name: "", email: "", subject: "", message: "" });
       } else {
@@ -45,16 +60,40 @@ const Contact = () => {
       }, 5000);
     } catch (error) {
       console.error('Contact form submission error:', error);
+      
+      // Handle specific error types
+      let errorMessage = "Sorry, something went wrong. Please try again later.";
+      let errorDetail = null;
+      
+      if (error.name === 'AbortError' || error.code === 'ECONNABORTED') {
+        errorMessage = "Request timed out. Please check your connection and try again.";
+      } else if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        if (error.response.status === 400) {
+          errorMessage = "Please check your form inputs and try again.";
+        } else if (error.response.status === 429) {
+          errorMessage = "Too many requests. Please try again later.";
+        } else if (error.response.status >= 500) {
+          errorMessage = "Server error. Please try again later.";
+        }
+        errorDetail = error.response.data?.error || null;
+      } else if (error.request) {
+        // The request was made but no response was received
+        errorMessage = "Could not connect to the server. Please check your internet connection.";
+      }
+      
       setStatus({
         submitting: false,
         success: null,
-        error: error.response?.data?.error || "Sorry, something went wrong. Please try again later."
+        error: errorMessage,
+        errorDetail: errorDetail
       });
       
-      // Reset error message after 5 seconds
+      // Reset error message after 8 seconds
       setTimeout(() => {
-        setStatus(prev => ({ ...prev, error: null }));
-      }, 5000);
+        setStatus(prev => ({ ...prev, error: null, errorDetail: null }));
+      }, 8000);
     }
   };
 
@@ -336,6 +375,11 @@ const Contact = () => {
                   exit={{ opacity: 0, y: -10 }}
                 >
                   {status.error}
+                  {status.errorDetail && (
+                    <div className="text-sm text-red-400 mt-2">
+                      Details: {status.errorDetail}
+                    </div>
+                  )}
                 </motion.div>
               )}
               

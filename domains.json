@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "domains": [
+    {
+      "domain": "tahmid-chowdhury.vercel.app",
+      "type": "primary"
+    }
+  ]
+}

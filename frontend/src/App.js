@@ -8,11 +8,9 @@ import Contact from './pages/Contact';
 import Footer from './components/Footer';
 import ThemeToggle from './components/ThemeToggle';
 import { motion, AnimatePresence } from 'framer-motion';
-import { inject } from '@vercel/analytics';
+// Import Vercel Analytics
+import { Analytics } from '@vercel/analytics/react';
 import './App.css';
-
-// Initialize Vercel Analytics
-inject();
 
 function App() {
   const [theme, setTheme] = useState('dark');
@@ -76,6 +74,8 @@ function App() {
           </AnimatePresence>
         </main>
         <Footer />
+        {/* Add Analytics component */}
+        <Analytics />
       </div>
     </BrowserRouter>
   );

@@ -8,7 +8,7 @@ const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [activeFilter, setActiveFilter] = useState("All");
-  const [hoveredProject, setHoveredProject] = useState(null);
+  // Removing the unused hoveredProject state
   
   // API states
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,7 @@ const Projects = () => {
     {
       id: 1,
       title: "LinguaDex",
-      description: "An AI-enhanced language learning platform with quizzes, translation, and vocabulary features.",
+      description: "An AI-enhanced language learning platform with several features.",
       technologies: ["JavaScript", "HTML", "Python", "CSS", "React", "Tailwind"],
       link: "https://github.com/tahmid-chowdhury/LinguaDex",
       details: [
@@ -69,7 +69,7 @@ const Projects = () => {
     {
       id: 5,
       title: "HackHive 2025",
-      description: "A fitness tracker MVP built in <24h with real-time feedback and motivational visuals.",
+      description: "A fitness tracker app built in <24h with real-time feedback and motivational visuals.",
       technologies: ["TypeScript", "React Native", "Mobile Development"],
       link: "https://github.com/tahmid-chowdhury/HackHive-2025",
       details: [
@@ -78,16 +78,57 @@ const Projects = () => {
     },
     {
       id: 6,
-      title: "Other Projects",
-      description: "Collection of smaller projects including CipherSafe, NoteMe, Calculator, and more.",
-      technologies: ["Java", "C++", "Dart", "Swift", "Python", "JavaScript"],
-      link: "https://github.com/tahmid-chowdhury",
+      title: "CipherSafe",
+      description: "A secure password manager with AES encryption and a user-friendly interface.",
+      technologies: ["Java"],
+      link: "https://github.com/tahmid-chowdhury/CipherSafe",
       details: [
-        "CipherSafe: Password manager (Java)",
-        "NoteMe: Multilang notes app (C++, Dart, Swift)",
-        "Calculator: Base converter (Python, JS)",
-        "Blackjack: Multiplayer with replay (JS, Python)",
-        "Tic-Tac-Toe: Minimax AI game (JS)"
+        "Developed a secure password manager with AES encryption and a user-friendly interface",
+        "Implemented secure storage and retrieval of sensitive data"
+      ]
+    },
+    {
+      id: 7,
+      title: "NoteMe",
+      description: "A multi-platform notes app with a focus on user experience and accessibility.",
+      technologies: ["C++", "Dart", "Swift", "C", "HTML"],
+      link: "https://github.com/tahmid-chowdhury/NoteMe",
+      details: [
+        "Created a multi-platform notes app with a focus on user experience and accessibility",
+        "Implemented features for easy note-taking and organization"
+      ]
+    },
+    {
+      id: 8,
+      title: "Number Systems Calculator",
+      description: "A calculator for converting between different number systems.",
+      technologies: ["Python", "JavaScript", "HTML", "CSS"],
+      link: "https://github.com/tahmid-chowdhury/Number-Systems-Calculator",
+      details: [
+        "Developed a calculator for converting between different number systems",
+        "Implemented a user-friendly interface with real-time calculations"
+      ]
+    },
+    {
+      id: 9,
+      title: "Black Jack Replay",
+      description: "A blackjack game with replay functionality.",
+      technologies: ["JavaScript", "Python", "HTML", "CSS"],
+      link: "https://github.com/jasonmzx/Black-Jack-Replay-3700U",
+      details: [
+        "Created a blackjack game with replay functionality",
+        "Implemented real-time game mechanics and user interactions"
+      ]
+    },
+    {
+      id: 10,
+      title: "Tic-Tac-Toe",
+      description: "A simple Tic-Tac-Toe game with a Minimax AI opponent.",
+      technologies: ["JavaScript", "HTML", "CSS"],
+      link: "https://github.com/tahmid-chowdhury/Tic-Tac-Toe",
+      details: [
+        "Developed a simple Tic-Tac-Toe game with a Minimax AI opponent",
+        "Implemented real-time game mechanics and user interactions"
       ]
     }
   ], []);
@@ -246,8 +287,6 @@ const Projects = () => {
               boxShadow: '0 15px 30px var(--shadow-color)',
               transition: { duration: 0.3 } 
             }}
-            onMouseEnter={() => setHoveredProject(project.id)}
-            onMouseLeave={() => setHoveredProject(null)}
           >
             {/* Removed thumbnail image */}
             <div className="flex justify-between items-start mb-2">

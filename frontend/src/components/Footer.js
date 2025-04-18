@@ -39,43 +39,83 @@ const Footer = () => {
   };
 
   return (
-    <footer className="py-8 mt-12 border-t border-border-color">
-      <div className="max-w-7xl mx-auto px-4">
+    <footer className="bg-bg-secondary py-8 border-t border-border-color relative">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent-primary to-accent-secondary opacity-70"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-4 md:mb-0"
+            className="mb-4 md:mb-0 text-center md:text-left"
           >
+            <div className="flex items-center justify-center md:justify-start mb-2">
+              <motion.span
+                className="text-lg font-bold mr-2"
+                whileHover={{ scale: 1.05, color: 'var(--accent-primary)' }}
+              >
+                Tahmid Chowdhury
+              </motion.span>
+              <span className="text-xs bg-bg-tertiary px-2 py-1 rounded-full text-text-secondary">Portfolio</span>
+            </div>
             <p className="text-sm text-text-secondary">
-              © {currentYear} Tahmid Chowdhury. All rights reserved.
+              © {currentYear} All rights reserved
             </p>
             <p className="text-sm text-text-secondary mt-1">
-              Ajax, ON • +1 (647) 608-4394
+              <span className="inline-block mr-2">Ajax, ON</span>
+              <span>•</span>
+              <motion.a 
+                href="tel:+16476084394"
+                className="inline-block mx-2"
+                whileHover={{ color: 'var(--accent-primary)' }}
+              >
+                +1 (647) 608-4394
+              </motion.a>
             </p>
           </motion.div>
 
           <motion.div 
-            className="flex space-x-5"
+            className="flex flex-col items-center md:items-end"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            {socialLinks.map((link, index) => (
-              <motion.a
-                key={link.name}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-icon-link"
-                whileHover={{ y: -3, color: 'var(--accent-primary)' }}
-                transition={{ duration: 0.2 }}
-                aria-label={link.name}
-              >
-                {renderIcon(link.icon)}
-              </motion.a>
-            ))}
+            <p className="text-sm text-text-secondary mb-2">Connect with me</p>
+            <div className="flex space-x-4">
+              {socialLinks.map((link, index) => (
+                <motion.a
+                  key={link.name}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon-link"
+                  aria-label={link.name}
+                  whileHover={{ y: -3, color: 'var(--accent-primary)' }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0,
+                    transition: {
+                      delay: index * 0.1 + 0.3
+                    }
+                  }}
+                >
+                  <div className="social-icon">
+                    {renderIcon(link.icon)}
+                  </div>
+                </motion.a>
+              ))}
+            </div>
+            
+            <motion.p 
+              className="text-xs text-text-secondary mt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.7 }}
+              transition={{ delay: 1 }}
+            >
+              Built with React & Framer Motion
+            </motion.p>
           </motion.div>
         </div>
       </div>

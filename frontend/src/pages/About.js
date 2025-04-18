@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+// Using direct URL instead of import
+const profileImgUrl = 'https://avatars.githubusercontent.com/u/32552650';
 
 const About = () => {
   // Animation variants
@@ -27,22 +29,80 @@ const About = () => {
         animate="visible"
         className="space-y-8"
       >
-        {/* Header Section */}
+        {/* Header Section with Profile Picture */}
         <motion.div variants={itemVariants} className="card">
-          <h1>Tahmid Chowdhury</h1>
-          <p className="text-lg">Software Engineer</p>
-          <div className="flex flex-wrap gap-2 mt-2">
-            <span className="inline-block px-3 py-1 bg-bg-tertiary rounded-full text-sm">
-              Ajax, ON
-            </span>
-            <span className="inline-block px-3 py-1 bg-bg-tertiary rounded-full text-sm">
-              +1 (647) 608-4394
-            </span>
-            <span className="inline-block px-3 py-1 bg-bg-tertiary rounded-full text-sm">
-              <a href="mailto:tahmid.s.chowdhury@gmail.com">
-                tahmid.s.chowdhury@gmail.com
-              </a>
-            </span>
+          <div className="flex flex-col md:flex-row md:items-center gap-8">
+            <div className="profile-image-container flex-shrink-0 mx-auto md:mx-0">
+              <motion.div 
+                className="profile-image-wrapper rounded-full overflow-hidden w-48 h-48 border-4 border-accent-primary"
+                whileHover={{ scale: 1.05, rotate: 5 }}
+                transition={{ duration: 0.3 }}
+              >
+                <img 
+                  src={profileImgUrl} 
+                  alt="Tahmid Chowdhury" 
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            </div>
+            
+            <div className="text-center md:text-left">
+              <h1>Tahmid Chowdhury</h1>
+              <p className="text-lg">Software Engineer</p>
+              <div className="flex flex-wrap gap-2 mt-2 justify-center md:justify-start">
+                <span className="inline-block px-3 py-1 bg-bg-tertiary rounded-full text-sm">
+                  Ajax, ON
+                </span>
+                <span className="inline-block px-3 py-1 bg-bg-tertiary rounded-full text-sm">
+                  <a href="tel:+16476084394">
+                    +1 (647) 608-4394
+                  </a>
+                </span>
+                <span className="inline-block px-3 py-1 bg-bg-tertiary rounded-full text-sm">
+                  <a href="mailto:tahmid.s.chowdhury@gmail.com">
+                    tahmid.s.chowdhury@gmail.com
+                  </a>
+                </span>
+              </div>
+              
+              {/* Social Links */}
+              <div className="social-links flex mt-4 gap-3 justify-center md:justify-start">
+                <motion.a 
+                  href="https://www.linkedin.com/in/tahmid-c" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon p-2 rounded-full bg-bg-tertiary hover:bg-accent-primary transition-all"
+                  whileHover={{ y: -3, scale: 1.1 }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                  </svg>
+                </motion.a>
+                <motion.a 
+                  href="https://github.com/tahmid-chowdhury" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon p-2 rounded-full bg-bg-tertiary hover:bg-accent-primary transition-all"
+                  whileHover={{ y: -3, scale: 1.1 }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                  </svg>
+                </motion.a>
+                <motion.a 
+                  href="mailto:tahmid.s.chowdhury@gmail.com"
+                  className="social-icon p-2 rounded-full bg-bg-tertiary hover:bg-accent-primary transition-all"
+                  whileHover={{ y: -3, scale: 1.1 }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9-2-2-2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </motion.a>
+              </div>
+            </div>
           </div>
         </motion.div>
 

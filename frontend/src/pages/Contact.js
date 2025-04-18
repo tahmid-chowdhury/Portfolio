@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-// import axios from 'axios'; // Uncomment when backend is ready
+import axios from 'axios'; // Uncommented for API connection
 
 const Contact = () => {
   const [form, setForm] = useState({ 
@@ -25,28 +25,30 @@ const Contact = () => {
     setStatus({ submitting: true, success: null, error: null });
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Call the actual API endpoint
+      const response = await axios.post('/api/contact', form);
       
-      // Uncomment when backend API is ready
-      // await axios.post('/api/contact', form);
-      
-      setStatus({ 
-        submitting: false, 
-        success: "Thank you for your message! I'll get back to you soon.",
-        error: null
-      });
-      setForm({ name: "", email: "", subject: "", message: "" });
+      if (response.data.success) {
+        setStatus({ 
+          submitting: false, 
+          success: "Thank you for your message! I'll get back to you soon.",
+          error: null
+        });
+        setForm({ name: "", email: "", subject: "", message: "" });
+      } else {
+        throw new Error(response.data.error || 'Something went wrong');
+      }
       
       // Reset success message after 5 seconds
       setTimeout(() => {
         setStatus(prev => ({ ...prev, success: null }));
       }, 5000);
     } catch (error) {
+      console.error('Contact form submission error:', error);
       setStatus({
         submitting: false,
         success: null,
-        error: "Sorry, something went wrong. Please try again later."
+        error: error.response?.data?.error || "Sorry, something went wrong. Please try again later."
       });
       
       // Reset error message after 5 seconds

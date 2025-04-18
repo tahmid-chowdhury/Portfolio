@@ -1,0 +1,26 @@
+{
+  "name": "tahmid-portfolio",
+  "version": "1.0.0",
+  "description": "Tahmid Chowdhury's Portfolio Website",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd frontend && npm start",
+    "server": "cd backend && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && npm start"
+  },
+  "keywords": [
+    "portfolio",
+    "mern",
+    "react",
+    "mongodb",
+    "express"
+  ],
+  "author": "Tahmid Chowdhury",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

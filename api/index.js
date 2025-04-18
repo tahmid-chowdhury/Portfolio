@@ -1,4 +1,4 @@
-// api/index.js - Vercel serverless function entry point
+// Vercel serverless function entry point
 const app = require('../backend/server');
 
 // Export the Express API

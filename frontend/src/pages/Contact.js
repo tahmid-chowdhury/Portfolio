@@ -1,4 +1,3 @@
-// frontend/src/pages/Contact.jsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 // import axios from 'axios'; // Uncomment when backend is ready
@@ -25,7 +24,7 @@ const Contact = () => {
     setStatus({ submitting: true, success: null, error: null });
 
     try {
-      // For now, simulate API call
+      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Uncomment when backend API is ready

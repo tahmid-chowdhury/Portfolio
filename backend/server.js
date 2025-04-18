@@ -1,7 +1,6 @@
-// backend/server.js
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');            // enable CORS for dev (if needed)
+const cors = require('cors');            // enable CORS for dev
 require('dotenv').config();             // load variables from .env
 
 const app = express();

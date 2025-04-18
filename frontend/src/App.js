@@ -1,4 +1,3 @@
-// frontend/src/App.jsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import NavBar from './components/NavBar';

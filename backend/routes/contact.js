@@ -1,4 +1,3 @@
-// backend/routes/contact.js
 const express = require('express');
 const router = express.Router();
 
@@ -12,12 +11,12 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Please provide name, email, and message' });
     }
     
-    // Here you could:
+    // TODO:
     // 1. Store message in database (create a Message model)
     // 2. Send an email notification using a service like Nodemailer
     // 3. Connect to an external email API service
     
-    // For now, we'll just log it and return success
+    // Log it and return success
     console.log('Contact form message received:', { name, email, subject, message });
     
     res.status(200).json({ success: true, message: 'Message received successfully' });

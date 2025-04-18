@@ -1,4 +1,3 @@
-// backend/routes/projects.js
 const express = require('express');
 const router = express.Router();
 const Project = require('../models/Project');
@@ -25,7 +24,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// (Optional) PUT /api/projects/:id - update an existing project
+// PUT /api/projects/:id - update an existing project
 router.put('/:id', async (req, res) => {
   try {
     const updated = await Project.findByIdAndUpdate(
@@ -40,7 +39,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// (Optional) DELETE /api/projects/:id - delete a project
+// DELETE /api/projects/:id - delete a project
 router.delete('/:id', async (req, res) => {
   try {
     const deleted = await Project.findByIdAndDelete(req.params.id);

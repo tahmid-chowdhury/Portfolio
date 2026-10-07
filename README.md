@@ -1,6 +1,6 @@
-# Tahmid Chowdhury — IndieWeb portfolio
+# Tahmid Chowdhury, portfolio
 
-This repository contains the React single-page portfolio for Tahmid Chowdhury. The public site lives in `frontend/` and uses the existing Create React App setup; no new runtime dependencies were added.
+This repository contains the React single-page portfolio for me, Tahmid Chowdhury. The public site lives in `frontend/` and uses the existing Create React App setup; no new runtime dependencies were added.
 
 ## Local development
 

@@ -75,7 +75,7 @@ function App() {
       <main id="top">
         <section className="hero h-card" aria-labelledby="intro-title">
           <div className="hero-copy">
-            <p className="eyebrow">Software engineer · Ajax, Ontario</p>
+            <p className="eyebrow">Software engineer · Toronto, Ontario</p>
             <h1 id="intro-title">Thoughtful software<br /><em>for real people.</em></h1>
             <p className="hero-lede p-note">I build full-stack products and AI-assisted tools that make complex work feel clear, useful, and human.</p>
             <div className="hero-actions">
@@ -103,7 +103,7 @@ function App() {
             <div className="about-body">
               <p className="large-copy">I’m a software engineer and Ontario Tech University graduate who enjoys turning open-ended problems into dependable, well-shaped products.</p>
               <p>My work spans full-stack web development, machine learning, and technical leadership. I care about the details people feel: a calm interface, a useful error message, a system that is easy to maintain six months later.</p>
-              <div className="signature">Tahmid Chowdhury <span>— always learning</span></div>
+              <div className="signature">Tahmid Chowdhury <span>, always learning</span></div>
             </div>
           </div>
         </section>
@@ -157,7 +157,7 @@ function App() {
         <section className="contact-section" id="contact" aria-labelledby="contact-title">
           <p className="eyebrow">Have a good problem?</p><h2 id="contact-title">Let’s make<br /><em>something useful.</em></h2>
           <a className="contact-email u-email" href="mailto:tahmid.s.chowdhury@gmail.com">tahmid.s.chowdhury@gmail.com <Arrow /></a>
-          <div className="contact-meta"><span>Ajax, ON · Canada</span><span><a href="https://github.com/tahmid-chowdhury" rel="noreferrer">GitHub</a> / <a href="https://www.linkedin.com/in/tahmid-c" rel="noreferrer">LinkedIn</a></span></div>
+          <div className="contact-meta"><span>Toronto, ON · Canada</span><span><a href="https://github.com/tahmid-chowdhury" rel="noreferrer">GitHub</a> / <a href="https://www.linkedin.com/in/tahmid-c" rel="noreferrer">LinkedIn</a></span></div>
         </section>
       </main>
 

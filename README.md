@@ -1,109 +1,19 @@
-# Tahmid Chowdhury's Portfolio
+# Tahmid Chowdhury, portfolio
 
-A modern, full-stack portfolio website built with the MERN stack (MongoDB, Express, React, Node.js) featuring a clean, dark-themed, minimal design with subtle animations.
+This repository contains the React single-page portfolio for me, Tahmid Chowdhury. The public site lives in `frontend/` and uses the existing Create React App setup; no new runtime dependencies were added.
 
-## Live Demo
+## Local development
 
-Visit my portfolio at [tahmid-chowdhury.vercel.app](https://tahmid-chowdhury.vercel.app)
-
-## Features
-
-- **Responsive Design**: Looks great on all devices from mobile to desktop
-- **Dark/Light Theme**: Toggle between dark and light modes
-- **Full-Stack Application**: Frontend built with React, backend with Express/Node.js
-- **MongoDB Integration**: Store and retrieve project information and contact form data
-- **Animations**: Smooth transitions and animations using Framer Motion
-- **Contact Form**: Functional contact form that submits to backend API
-- **Portfolio Projects**: Showcase your projects with filtering by technology
-
-## Tech Stack
-
-### Frontend
-- React
-- React Router for navigation
-- Framer Motion for animations
-- CSS with responsive design
-- Dark/Light theme switcher
-
-### Backend
-- Node.js with Express
-- MongoDB for data storage
-- RESTful API design
-
-### Deployment
-- Vercel deployment ready
-- API routes configured for serverless functions
-
-## Project Structure
-
-```
-Portfolio/
-├── frontend/             # React frontend
-│   ├── public/           # Public assets
-│   └── src/              # React source code
-│       ├── components/   # Reusable components
-│       ├── pages/        # Page components
-│       └── App.js        # Main application
-├── backend/              # Express backend
-│   ├── routes/           # API routes 
-│   └── server.js         # Express server
-└── api/                  # Vercel API configuration
-```
-
-## Getting Started
-
-### Prerequisites
-- Node.js
-- MongoDB connection URI
-
-### Installation
-
-1. Clone the repository
-```
-git clone https://github.com/tahmid-chowdhury/portfolio.git
-cd portfolio
-```
-
-2. Run the setup script to install all dependencies
-```
-.\setup.bat
-```
-
-Or install manually:
-```
+```bash
+cd frontend
 npm install
-cd frontend && npm install
-cd ../backend && npm install
+npm start
 ```
 
-3. Create a `.env` file in the backend directory:
-```
-MONGO_URI=your_mongodb_connection_string
-PORT=5000
-```
+Open `http://localhost:3000`. Create a production build with `npm run build`, or run the existing tests with `npm test`.
 
-### Running the Application
+## Content notes
 
-#### Development Mode
-Run both frontend and backend concurrently:
-```
-npm run dev
-```
+The portfolio uses the contact details, education, experience, skills, project descriptions, and quantitative claims already supplied in the project/source materials. The Tesla Stock Prediction result is explicitly described as a trading simulation/backtest, not live investment performance. Repository links are included only for projects with source-supported URLs. The RSS feed contains a stable, human-readable work permalink; replace its example deployment URL if the site is deployed elsewhere.
 
-Or run separately:
-```
-npm run client  # Frontend on http://localhost:3000
-npm run server  # Backend on http://localhost:5000
-```
-
-#### Production Build
-```
-npm run build
-```
-
-## Contact
-
-Tahmid Chowdhury
-- Email: tahmid.s.chowdhury@gmail.com
-- LinkedIn: https://www.linkedin.com/in/tahmid-c
-- GitHub: https://github.com/tahmid-chowdhury
+The site intentionally avoids analytics and third-party tracking. Identity and content use h-card-friendly classes (`h-card`, `p-name`, `u-photo`, `u-email`) and project content is structured as semantic articles.

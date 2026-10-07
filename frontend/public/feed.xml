@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Tahmid Chowdhury</title>
+    <link>https://tahmid-chowdhury.github.io/portfolio/</link>
+    <description>Notes and project updates from Tahmid Chowdhury.</description>
+    <language>en-ca</language>
+    <item>
+      <title>Selected work</title>
+      <link>https://tahmid-chowdhury.github.io/portfolio/#work</link>
+      <guid isPermaLink="true">https://tahmid-chowdhury.github.io/portfolio/#work</guid>
+      <description>Projects across full-stack development, AI, machine learning, and accessible systems.</description>
+    </item>
+  </channel>
+</rss>
